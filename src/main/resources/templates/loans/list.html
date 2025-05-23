@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список заказов</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<section>
+
+  <header>
+    <div class="container">
+      <h1>Онлайн заказ книг в библиотеке</h1>
+    </div>
+  </header>
+
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+  <div style="margin-bottom: 20px;">
+    <h1>Заказ книг</h1>
+    <a th:href="@{/loans/add}" class="btn btn-success">Добавить заказ</a>
+
+    <div>
+      <span>Количество записей на странице: </span>
+      <a th:href="@{/loans(page=1, size=5, sortField=${sortField}, sortDirection=${sortDirection})}">5</a> |
+      <a th:href="@{/loans(page=1, size=10, sortField=${sortField}, sortDirection=${sortDirection})}">10</a> |
+      <a th:href="@{/loans(page=1, size=20, sortField=${sortField}, sortDirection=${sortDirection})}">20</a>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Клиент</th>
+      <th>Книга</th>
+      <th>Дата заказа</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="loan : ${loans}">
+      <td th:text="${loan.client.fullName}"></td>
+      <td th:text="${loan.book.title}"></td>
+      <td th:text="${#temporals.format(loan.loanDate, 'dd.MM.yyyy HH:mm')}"></td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:replace="~{fragments/pagination :: pagination(${size}, ${sortField}, ${sortDirection}, ${currentPage}, ${totalPages})}"></div>
+
+  <div style="text-align: center; margin-top: 10px;">
+    <span>Показано <span th:text="${loans.size()}"></span> из <span th:text="${totalItems}"></span> записей</span>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="/books">Книги</a></li>
+      <li><a href="/clients">Клиенты</a></li>
+      <li><a href="/loans">Взятые книги</a></li>
+      <li><a href="/loans/api">Получить JSON</a></li>
+    </ul>
+  </nav>
+
+</section>
+</body>
+</html>

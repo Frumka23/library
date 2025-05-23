@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Создать заказ</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section>
+  <div class="container">
+
+    <header>
+      <div class="container">
+        <h1>Добавление нового заказа</h1>
+      </div>
+    </header>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+    <form th:action="@{/loans/add}" method="post">
+
+      <div class="form-group">
+        <label for="clientId">Клиент:</label>
+        <select name="clientId" id="clientId" required>
+          <option th:each="client : ${clients}"
+                  th:value="${client.id}"
+                  th:text="${client.fullName}"></option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="bookId">Книга:</label>
+        <select name="bookId" id="bookId" required>
+          <option th:each="book : ${books}"
+                  th:value="${book.id}"
+                  th:text="${book.title + ' || ' + book.author}"></option>
+        </select>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="/loans" class="btn btn-danger">Отмена</a>
+      </div>
+
+    </form>
+  </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="pagination(size, sortField, sortDirection, currentPage, totalPages)"
+     class="pagination">
+  <div>
+            <span th:if="${currentPage > 1}">
+                <a th:href="@{${#httpServletRequest.requestURI}(page=1, size=${size}, sortField=${sortField}, sortDirection=${sortDirection})}"
+                   class="btn"><<</a>
+                <a th:href="@{${#httpServletRequest.requestURI}(page=${currentPage - 1}, size=${size}, sortField=${sortField}, sortDirection=${sortDirection})}"
+                   class="btn"><</a>
+            </span>
+
+    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${i == currentPage}"
+                   th:text="${i}"
+                   class="active"></a>
+                <a th:unless="${i == currentPage}"
+                   th:href="@{${#httpServletRequest.requestURI}(page=${i}, size=${size}, sortField=${sortField}, sortDirection=${sortDirection})}"
+                   th:text="${i}"
+                   class="btn"></a>
+            </span>
+
+    <span th:if="${currentPage < totalPages}">
+                <a th:href="@{${#httpServletRequest.requestURI}(page=${currentPage + 1}, size=${size}, sortField=${sortField}, sortDirection=${sortDirection})}"
+                   class="btn">></a>
+                <a th:href="@{${#httpServletRequest.requestURI}(page=${totalPages}, size=${size}, sortField=${sortField}, sortDirection=${sortDirection})}"
+                   class="btn">>></a>
+            </span>
+  </div>
+</div>
+</body>
+</html>

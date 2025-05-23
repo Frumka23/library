@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Создать книгу</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section>
+  <div class="container">
+
+    <header>
+      <div class="container">
+        <h1>Добавление новой книги</h1>
+      </div>
+    </header>
+
+    <form th:action="@{/books/add}" th:object="${book}" method="post">
+      <div class="form-group">
+        <label for="title">Название:</label>
+        <input type="text" id="title" th:field="*{title}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Автор:</label>
+        <input type="text" id="author" th:field="*{author}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="isbn">ISBN:</label>
+        <input type="text" id="isbn" th:field="*{isbn}" required>
+      </div>
+
+      <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+      <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+      <div>
+        <button type="submit" class="btn btn-success">Сохранить</button>
+        <a href="/books" class="btn btn-danger">Отмена</a>
+      </div>
+
+    </form>
+  </div>
+</section>
+</body>
+</html>

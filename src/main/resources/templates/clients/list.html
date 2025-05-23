@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список клиентов</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<section>
+  <header>
+    <div class="container">
+      <h1>Онлайн заказ книг в библиотеке</h1>
+    </div>
+  </header>
+
+  <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+  <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+  <div style="margin-bottom: 20px;">
+    <h1>Клиенты</h1>
+    <a th:href="@{/clients/add}" class="btn btn-success">Добавить клиента</a>
+
+    <div>
+      <span>Количество записей на странице: </span>
+      <a th:href="@{/clients(page=1, size=5, sortField=${sortField}, sortDirection=${sortDirection})}">5</a> |
+      <a th:href="@{/clients(page=1, size=10, sortField=${sortField}, sortDirection=${sortDirection})}">10</a> |
+      <a th:href="@{/clients(page=1, size=20, sortField=${sortField}, sortDirection=${sortDirection})}">20</a>
+    </div>
+  </div>
+
+
+
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>ФИО</th>
+      <th>Дата рождения</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${clients}">
+      <td th:text="${client.id}"></td>
+      <td th:text="${client.fullName}"></td>
+      <td th:text="${#temporals.format(client.birthDate, 'dd.MM.yyyy')}"></td>
+      <td>
+        <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn">Редактировать</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div th:replace="~{fragments/pagination :: pagination(${size}, ${sortField}, ${sortDirection}, ${currentPage}, ${totalPages})}"></div>
+
+  <div style="text-align: center; margin-top: 10px;">
+    <span>Показано <span th:text="${clients.size()}"></span> из <span th:text="${totalItems}"></span> записей</span>
+  </div>
+
+  <nav>
+    <ul>
+      <li><a href="/books">Книги</a></li>
+      <li><a href="/clients">Клиенты</a></li>
+      <li><a href="/loans">Взятые книги</a></li>
+      <li><a href="/loans/api">Получить JSON</a></li>
+    </ul>
+  </nav>
+</section>
+</body>
+</html>
